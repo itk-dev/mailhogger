@@ -1,0 +1,25 @@
+easy_admin:
+    entities:
+      Website:
+        class: AppBundle\Entity\Website
+        list:
+          # actions:
+          #   - name: 'mailhogger_index'
+          #     label: Show
+          #     type: 'route'
+
+          fields:
+            - property: name
+              template: name.html.twig
+            - property: senderEmails
+
+        form:
+          fields:
+            - property: name
+            - property: senderEmails
+              type: AppBundle\Form\Type\EmailListType
+              help: One per line
+            - property: logoUrl
+              type: url
+              type_options:
+                required: false
