@@ -136,24 +136,33 @@ class WebsiteController extends Controller
 
     private function filterMessages(Website $website, $body)
     {
-        $allowedSenders = $website->getSenderEmails();
+        $data = \json_decode((string) $body);
 
+        $allowedSenders = $website->getSenderEmails();
         if (!empty($allowedSenders)) {
-            $data = \json_decode((string) $body);
             $data->items = array_filter(
                 $data->items,
-              function ($item) use ($allowedSenders) {
-                  return isset($item->Raw->From) && \in_array(
-                      $item->Raw->From,
-                      $allowedSenders,
-                      true
-                  );
-              }
+                function ($item) use ($allowedSenders) {
+                    return isset($item->Raw->From) && \in_array(
+                            $item->Raw->From,
+                            $allowedSenders,
+                            true
+                        );
+                }
             );
-            $body = \json_encode($data);
         }
 
-        return $body;
+        // Sort descending by date
+        usort($data->items, function ($a, $b) {
+            return -strcmp(
+                isset($a->Created) ? $a->Created : null,
+                isset($b->Created) ? $b->Created : null
+            );
+        });
+
+        $data->total = $data->count = count($data->items);
+
+        return \json_encode($data);
     }
 
     private function getMimeType(File $file)
