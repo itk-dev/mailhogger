@@ -99,13 +99,15 @@ class WebsiteController extends Controller
         $uri = '/api/'.$path;
         $query = $request->query->all();
         $headers = $request->headers->all();
+        $content = $request->getContent();
 
         $response = null;
 
         try {
             $response = $client->request($method, $uri, [
-              'headers' => $headers,
-              'query' => $query,
+                'headers' => $headers,
+                'query' => $query,
+                'body' => $content,
             ]);
         } catch (ClientException $e) {
             if ($e->hasResponse()) {
@@ -160,7 +162,7 @@ class WebsiteController extends Controller
             );
         });
 
-        $data->total = $data->count = count($data->items);
+        $data->total = $data->count = \count($data->items);
 
         return \json_encode($data);
     }
