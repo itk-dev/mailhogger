@@ -790,7 +790,7 @@ index 798bcee..0000000
 -	return filepath.Join(append([]string{dir}, strings.Split(cannonicalName, "/")...)...)
 -}
 diff --git a/assets/templates/layout.html b/assets/templates/layout.html
-index 3df71d7..201a322 100644
+index 3df71d7..f07e9da 100644
 --- a/assets/templates/layout.html
 +++ b/assets/templates/layout.html
 @@ -1,7 +1,7 @@
@@ -802,8 +802,12 @@ index 3df71d7..201a322 100644
      <meta charset="utf-8">
      <meta http-equiv="X-UA-Compatible" content="IE=edge">
      <meta name="viewport" content="width=device-width, initial-scale=1">
-@@ -19,13 +19,13 @@
-         <div class="col-md-2 col-sm-3">
+@@ -16,16 +16,16 @@
+   <body ng-controller="MailCtrl" ng-click="keepopen=false">
+     <nav class="navbar navbar-default navbar-static-top" role="navigation">
+       <div class="container-fluid">
+-        <div class="col-md-2 col-sm-3">
++        <div class="col-md-6 col-sm-6">
            <div class="navbar-header">
              <a class="navbar-brand" href="#">
 -              <img src="images/hog.png" height="20" alt="MailHog"> MailHog
@@ -812,8 +816,9 @@ index 3df71d7..201a322 100644
            </div>
          </div>
  
-         <div class="col-md-10 col-sm-9">
+-        <div class="col-md-10 col-sm-9">
 -          <form class="navbar-form navbar-left" role="search">
++        <div class="col-md-6 col-sm-6">
 +          <form class="navbar-form navbar-right" role="search">
              <div class="form-group left-inner-addon">
                <i class="glyphicon glyphicon-search"></i>
