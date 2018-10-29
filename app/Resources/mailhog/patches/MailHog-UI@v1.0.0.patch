@@ -790,7 +790,7 @@ index 798bcee..0000000
 -	return filepath.Join(append([]string{dir}, strings.Split(cannonicalName, "/")...)...)
 -}
 diff --git a/assets/templates/layout.html b/assets/templates/layout.html
-index 3df71d7..de324d2 100644
+index 3df71d7..201a322 100644
 --- a/assets/templates/layout.html
 +++ b/assets/templates/layout.html
 @@ -1,7 +1,7 @@
@@ -818,7 +818,7 @@ index 3df71d7..de324d2 100644
              <div class="form-group left-inner-addon">
                <i class="glyphicon glyphicon-search"></i>
  
-@@ -44,95 +44,13 @@
+@@ -44,14 +44,6 @@
                </div>
              </div>
            </form>
@@ -833,11 +833,10 @@ index 3df71d7..de324d2 100644
          </div>
        </div>
      </nav>
- 
-     <div class="container-fluid">
+@@ -60,13 +52,6 @@
        <div class="row">
--        <div class="col-md-2 col-sm-3">
--          <ul class="nav nav-pills nav-stacked">
+         <div class="col-md-2 col-sm-3">
+           <ul class="nav nav-pills nav-stacked">
 -            <li>
 -              <a href="#" title="Event stream connected" ng-click="toggleStream()">
 -                <span class="glyphicon glyphicon-off {{ hasEventSource ? 'has-event-source' : 'no-event-source' }}"></span>
@@ -845,19 +844,13 @@ index 3df71d7..de324d2 100644
 -              </a>
 -            </li>
 -
--            <li>
--              <a href="#" ng-click="backToInboxFirst()">
--                Inbox ({{totalMessages}})
--              </a>
--            </li>
--
--            <li>
--              <a href="#" ng-click="deleteAll()">
--                <span class="glyphicon glyphicon-remove-circle"></span>
--                Delete all messages
--              </a>
--            </li>
--          </ul>
+             <li>
+               <a href="#" ng-click="backToInboxFirst()">
+                 Inbox ({{totalMessages}})
+@@ -80,54 +65,6 @@
+               </a>
+             </li>
+           </ul>
 -
 -          <div class="well jim-well">
 -            <h3>Jim</h3>
@@ -906,14 +899,9 @@ index 3df71d7..de324d2 100644
 -              <a href="#" ng-click="enableJim()" class="btn btn-xs btn-default">Enable Jim</a>
 -            </div>
 -          </div>
--        </div>
--
--        <div class="col-md-10 col-sm-9 content">
-           [: .Content :]
--        </div>
-       </div>
-     </div>
+         </div>
  
+         <div class="col-md-10 col-sm-9 content">
 diff --git a/config/config.go b/config/config.go
 deleted file mode 100644
 index 9e0b2fe..0000000

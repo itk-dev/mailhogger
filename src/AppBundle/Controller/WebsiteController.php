@@ -27,12 +27,19 @@ use Symfony\Component\Routing\Annotation\Route;
 class WebsiteController extends Controller
 {
     /**
-     * @var array
+     * @var string
      */
-    private $configuration;
-
     private $assetsPath;
+
+    /**
+     * @var string
+     */
     private $templatesPath;
+
+    /**
+     * @var Client
+     */
+    private $client;
 
     public function __construct()
     {
@@ -91,43 +98,17 @@ class WebsiteController extends Controller
      */
     public function apiAction(Request $request, Website $website, $path)
     {
-        $client = new Client([
-          'base_uri' => $this->getParameter('mailhog_url'),
-        ]);
-
         $method = $request->getMethod();
         $uri = '/api/'.$path;
         $query = $request->query->all();
         $headers = $request->headers->all();
         $content = $request->getContent();
 
-        $response = null;
-
-        try {
-            $response = $client->request($method, $uri, [
-                'headers' => $headers,
-                'query' => $query,
-                'body' => $content,
-            ]);
-        } catch (ClientException $e) {
-            if ($e->hasResponse()) {
-                $response = $e->getResponse();
-            }
+        if ('DELETE' === $method && '/api/v1/messages' === $uri) {
+            return $this->deleteAllMessages($request, $website);
         }
 
-        if (empty($response)) {
-            throw new NotFoundHttpException();
-        }
-
-        $headers = array_filter($response->getHeaders(), function ($header) {
-            if (0 === strcasecmp('transfer-encoding', $header)) {
-                return false;
-            }
-
-            return true;
-        }, ARRAY_FILTER_USE_KEY);
-        $body = $response->getBody();
-        $status = $response->getStatusCode();
+        list($body, $status, $headers) = $this->apiCall($method, $uri, $query, $headers, $content);
 
         if (preg_match('@^/api/v2/(messages|search)@', $uri)) {
             $body = $this->filterMessages($website, $body);
@@ -179,5 +160,62 @@ class WebsiteController extends Controller
         }
 
         return $file->getMimeType();
+    }
+
+    private function deleteAllMessages(Request $request, Website $website)
+    {
+        list($body, $status, $headers) = $this->apiCall('GET', '/api/v2/messages');
+        $body = $this->filterMessages($website, $body);
+        $data = \json_decode($body);
+
+        foreach ($data->items as $item) {
+            $this->apiCall('DELETE', '/api/v1/messages/'.$item->ID);
+        }
+
+        return new Response();
+    }
+
+    private function apiCall($method, $uri, $query = [], $headers = [], $content = null)
+    {
+        $response = null;
+
+        try {
+            $response = $this->client()->request($method, $uri, [
+                'headers' => $headers,
+                'query' => $query,
+                'body' => $content,
+            ]);
+        } catch (ClientException $e) {
+            if ($e->hasResponse()) {
+                $response = $e->getResponse();
+            }
+        }
+
+        if (empty($response)) {
+            throw new NotFoundHttpException();
+        }
+
+        $headers = array_filter($response->getHeaders(), function ($header) {
+            if (0 === strcasecmp('transfer-encoding', $header)) {
+                return false;
+            }
+
+            return true;
+        }, ARRAY_FILTER_USE_KEY);
+        $body = $response->getBody();
+        $status = $response->getStatusCode();
+
+        return [$body, $status, $headers];
+    }
+
+    private function client()
+    {
+        if (null === $this->client) {
+            $this->client = new Client([
+                'base_uri' => $this->getParameter('mailhog_url'),
+            ]);
+        }
+
+        return $this->client;
     }
 }
