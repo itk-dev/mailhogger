@@ -22,7 +22,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/site/{name}")
+ * @Route("/{name}")
  */
 class WebsiteController extends Controller
 {
