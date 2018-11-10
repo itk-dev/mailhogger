@@ -20,3 +20,6 @@ parameters:
 
     mailhog_url: http://127.0.0.1:8025
     admin_password: password
+
+    user_username: user
+    user_password: password
