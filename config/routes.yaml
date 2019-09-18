@@ -1,0 +1,4 @@
+# Make sure that controller routes come after admin route.
+controllers:
+    resource: ../src/Controller/
+    type: annotation
