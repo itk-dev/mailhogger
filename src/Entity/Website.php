@@ -55,7 +55,7 @@ class Website
      *
      * @return string
      */
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -79,7 +79,7 @@ class Website
      *
      * @return string
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -103,7 +103,7 @@ class Website
      *
      * @return array
      */
-    public function getSenderEmails(): array
+    public function getSenderEmails(): ?array
     {
         return $this->senderEmails;
     }
@@ -111,7 +111,7 @@ class Website
     /**
      * @return string
      */
-    public function getLogoUrl(): string
+    public function getLogoUrl(): ?string
     {
         return $this->logoUrl;
     }

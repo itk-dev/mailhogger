@@ -56,10 +56,6 @@ class WebsiteController extends AbstractController
 
     /**
      * @Route("/", name="show")
-     *
-     * @param Website $website
-     *
-     * @return Response
      */
     public function showAction(Website $website): Response
     {
@@ -77,9 +73,8 @@ class WebsiteController extends AbstractController
     /**
      * @Route("/{type}/{asset}", name="asset")
      *
-     * @param Website $website
-     * @param mixed   $type
-     * @param mixed   $asset
+     * @param mixed $type
+     * @param mixed $asset
      *
      * @return BinaryFileResponse|RedirectResponse
      */
@@ -106,13 +101,9 @@ class WebsiteController extends AbstractController
     /**
      * @Route("/api/{path}", name="api", requirements={"path"=".+"})
      *
-     * @param Request $request
-     * @param Website $website
-     * @param mixed   $path
+     * @param mixed $path
      *
      * @throws GuzzleException
-     *
-     * @return Response
      */
     public function apiAction(Request $request, Website $website, $path): Response
     {
@@ -164,8 +155,6 @@ class WebsiteController extends AbstractController
     }
 
     /**
-     * @param File $file
-     *
      * @return null|string
      */
     private function getMimeType(File $file): string
@@ -203,8 +192,6 @@ class WebsiteController extends AbstractController
      * @param null  $content
      *
      * @throws GuzzleException
-     *
-     * @return array
      */
     private function apiCall($method, $uri, $query = [], $headers = [], $content = null): array
     {
@@ -235,9 +222,6 @@ class WebsiteController extends AbstractController
         return [$body, $status, $headers];
     }
 
-    /**
-     * @return Client
-     */
     private function client(): Client
     {
         if (null === $this->client) {

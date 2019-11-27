@@ -1,0 +1,14 @@
+{% extends '@EasyAdmin/default/layout.html.twig' %}
+
+{% block title 'Send email'|trans %}
+
+{% block content_title 'Send email'|trans %}
+
+{% block content_footer_wrapper '' %}
+
+{% block main %}
+    {% block entity_form %}
+        {% form_theme form '@EasyAdmin/form/bootstrap_4.html.twig' %}
+        {{ form(form) }}
+    {% endblock %}
+{% endblock %}

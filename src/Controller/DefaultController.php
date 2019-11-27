@@ -11,6 +11,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
@@ -18,7 +19,7 @@ class DefaultController extends AbstractController
     /**
      * @Route("/", name="homepage")
      */
-    public function indexAction(): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function indexAction(): RedirectResponse
     {
         return $this->redirectToRoute('easyadmin');
     }
