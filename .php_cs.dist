@@ -5,9 +5,9 @@ $finder = PhpCsFixer\Finder::create()
 ;
 
 $header =<<<'HEADER'
-This file is part of Symfony MailHogger.
+This file is part of rimi-itk/mailhogger.
 
-(c) 2018 ITK Development
+(c) 2018–2019 ITK Development
 
 This source file is subject to the MIT license.
 HEADER;
