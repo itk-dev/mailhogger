@@ -1,3 +1,4 @@
+# itk-version: 1.0.0
 version: "3"
 
 networks:
@@ -22,24 +23,21 @@ services:
       #- ENCRYPT=1 # Uncomment to enable database encryption.
 
   phpfpm:
-    image: itkdev/php7.3-fpm:latest
+    image: itkdev/php7.4-fpm:latest
     networks:
       - app
     environment:
-      - PHP_XDEBUG=${PHP_XDEBUG:-0}
-      - PHP_XDEBUG_REMOTE_AUTOSTART=${PHP_XDEBUG_REMOTE_AUTOSTART:-0}
-      - PHP_XDEBUG_REMOTE_HOST=${PHP_XDEBUG_REMOTE_HOST:-0.0.0.0}
-      - PHP_XDEBUG_REMOTE_CONNECT_BACK=${PHP_XDEBUG_REMOTE_CONNECT_BACK:-0}
+      - XDEBUG_MODE=${XDEBUG_MODE:-off}
+      - XDEBUG_SESSION=${XDEBUG_SESSION:-0}
       - PHP_MAX_EXECUTION_TIME=30
       - PHP_MEMORY_LIMIT=256M
       # - PHP_MAIL=1 # Uncomment to enable mailhog.
       - DOCKER_HOST_DOMAIN=${COMPOSE_DOMAIN}
+      - COMPOSER_VERSION=1
     depends_on:
       - mariadb
     volumes:
       - .:/app:delegated
-      - vendor-cache:/app/vendor
-      - $PWD/vendor:/app-vendor
 
   nginx:
     image: nginx:latest
@@ -65,6 +63,3 @@ services:
     ports:
       - "1025"
       - "8025"
-
-volumes:
-  vendor-cache:
